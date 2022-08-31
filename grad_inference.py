@@ -324,7 +324,7 @@ if __name__ == "__main__":
                 
                 grad_samples /= np.linalg.norm(grad_samples, axis=1)[:,np.newaxis]
                 angles = np.array([np.arctan2(grad_samples[n, 1], grad_samples[n,0]) for n in range(n_samples)])
-                #ax0.quiver(xs_s[:,0], xs_s[:,1], grad_samples[:,0], grad_samples[:,1], scale_units='inches', scale = 2, headaxislength=0, headlength=0, alpha=0.005)
+                ax0.quiver(xs_s[:,0], xs_s[:,1], grad_samples[:,0], grad_samples[:,1], scale_units='inches', scale = 2, headaxislength=0, headlength=0, alpha=0.005)
                 #plt.quiver(xs[0,k], xs[1,k], mean_samples[0], mean_samples[1], color=color_mean, scale_units='inches', scale = 3, label="mean")
                   
                 bottom = 2

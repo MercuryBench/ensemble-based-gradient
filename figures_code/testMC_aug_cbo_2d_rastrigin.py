@@ -18,6 +18,10 @@ import sys
 import os
 myDir = os.getcwd()
 sys.path.append(myDir)
+from inspect import getsourcefile
+import os.path as path, sys
+current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
+sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
 from grad_inference import *
 from cbo import *
@@ -26,7 +30,7 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 import matplotlib.pylab as pl
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 # Choose colormap
-cmap = pl.cm.plasma_r
+cmap = pl.cm.gray_r
 # Get the colormap colors
 my_cmap = cmap(np.arange(cmap.N))    
 # Set alpha
@@ -109,7 +113,7 @@ params["sig"] = 0.7 # coefficient of noise
 params["kappa"] = 0.5 # coefficient of gradient drift term
 params["avar"] = 0.0
 
-N_ens = 2 # size of ensemble
+N_ens = 4 # size of ensemble
 J = N_ens
 
 
@@ -134,7 +138,7 @@ us_list[:, :, 0] = us0_global
 
 w_mean = np.zeros((d,N))
 w_mean[:, 0] = weighted_mean(us0_global, lambda u: -params["alpha"]*Phi(u))
-plt.plot(w_mean[0, 0], w_mean[1,0], 'rx')
+
 
 
 
@@ -170,9 +174,14 @@ print(f"elapsed time = {t2-t1}")
 
 #%%
 
-
 plt.figure(figsize=(5,5))
+plt.plot(w_mean[0, 0], w_mean[1,0], 'k*', markersize=10)
 plt.contourf(XX, YY, ZZ, 30, cmap=pl.cm.plasma_r)
+
+
+plt.plot(us_list[0, :, 0], us_list[1, :, 0], '.k')
+
+
 plt.plot(us_list[0, :, 0], us_list[1, :, 0], '.k')
 
 fig, ax1 = plt.subplots(1,1, figsize=(5,5))
@@ -206,7 +215,7 @@ ax2.set_ylim(ymin, ymax)
 ax2.contourf(XX, YY, ZZ, 30, cmap=pl.cm.plasma_r)
 ax2.plot(optimizer[0,:], optimizer[1, :], 'k.')
 H, xedges, yedges =np.histogram2d(optimizer[0,:],optimizer[1,:], range=[[-4.25,4.25],[-4.25,4.25]], bins=17)
-ax2.pcolormesh(xedges, yedges, H.T, cmap=my_cmap, vmax=np.max(H.T)*1.2)
+ax2.pcolormesh(xedges, yedges, H.T, cmap=my_cmap, vmax=np.max(H.T)*0.5)
 print(f"success rate: {np.sum(np.linalg.norm(optimizer, axis=0) <= 1e-2)/N_MC}")
     
     

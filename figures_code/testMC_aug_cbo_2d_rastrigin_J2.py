@@ -26,7 +26,7 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 import matplotlib.pylab as pl
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 # Choose colormap
-cmap = pl.cm.plasma_r
+cmap = pl.cm.gray_r
 # Get the colormap colors
 my_cmap = cmap(np.arange(cmap.N))    
 # Set alpha
@@ -134,7 +134,7 @@ us_list[:, :, 0] = us0_global
 
 w_mean = np.zeros((d,N))
 w_mean[:, 0] = weighted_mean(us0_global, lambda u: -params["alpha"]*Phi(u))
-plt.plot(w_mean[0, 0], w_mean[1,0], 'rx')
+
 
 
 
@@ -169,10 +169,11 @@ print(f"elapsed time = {t2-t1}")
 
 
 #%%
-
-
 plt.figure(figsize=(5,5))
+plt.plot(w_mean[0, 0], w_mean[1,0], 'k*', markersize=10)
 plt.contourf(XX, YY, ZZ, 30, cmap=pl.cm.plasma_r)
+
+
 plt.plot(us_list[0, :, 0], us_list[1, :, 0], '.k')
 
 fig, ax1 = plt.subplots(1,1, figsize=(5,5))

@@ -22,6 +22,8 @@ sys.path.append(myDir)
 from grad_inference import *
 from cbo import *
 from matplotlib.animation import FuncAnimation, PillowWriter
+import matplotlib.pylab as pl
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 np.random.seed(1)
 
@@ -113,7 +115,7 @@ us_list[:, :, 0] = us0_global
 # plot initial config
 
 plt.figure(figsize=(5,5))
-plt.contourf(XX, YY, ZZ, 30)
+plt.contourf(XX, YY, ZZ, 30, cmap = pl.cm.plasma_r)
 plt.plot(us_list[0, :, 0], us_list[1, :, 0], '.k')
 
 w_mean = np.zeros((d,N))
@@ -131,7 +133,7 @@ ln2, = ax1.plot([], [], 'rs')
 def init():
     ax1.set_xlim(xmin, xmax)
     ax1.set_ylim(ymin, ymax)
-    ax1.contourf(XX, YY, ZZ, 30)
+    ax1.contourf(XX, YY, ZZ, 30, cmap = pl.cm.plasma_r)
     return ln1, ln2,
 
 def update(frame_num): # expects frame to contain the new position of the ensemble
