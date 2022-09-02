@@ -17,8 +17,8 @@ import time
 np.random.seed(1)
 
 alpha = 1.0
-J = 2
-N_sim = 10000
+J = 20
+N_sim = 2000
 
 #-----------------------------------
 # test case "banana"
@@ -416,6 +416,7 @@ H3, yedges3, xedges3 = np.histogram2d(us_list_ALDI[0,:,N_burnin:].flatten(),us_l
 H4, yedges4, xedges4 = np.histogram2d(us_list_RWMH[0,:,N_burnin:].flatten(),us_list_RWMH[1,:,N_burnin:].flatten(), bins=[binsx,binsy])
 H5, yedges5, xedges5 = np.histogram2d(us_list_augALDI[0,:,N_burnin:].flatten(),us_list_augALDI[1,:,N_burnin:].flatten(), bins=[binsx,binsy])
 H6, yedges6, xedges6 = np.histogram2d(us_list_CBS[0,:,N_burnin:].flatten(),us_list_CBS[1,:,N_burnin:].flatten(), bins=[binsx,binsy])
+H7, yedges7, xedges7 = np.histogram2d(us_list_augALDIone[0,:,N_burnin:].flatten(),us_list_augALDIone[1,:,N_burnin:].flatten(), bins=[binsx,binsy])
 fig, ((ax1,ax2,ax3),(ax4,ax5,ax6))= plt.subplots(ncols=3, nrows=2,figsize=(10,15))
 
 
@@ -435,10 +436,11 @@ ax4.set_xlim((xmin,xmax));ax3.set_ylim((ymin,ymax))
 ax4.contour(U0, U1, np.exp(-I(U)), 5, alpha=0.4, colors="black")
 ax4.set_title("ALDI")
 
-ax6.pcolormesh(yedges4, xedges4, H4.T, cmap=pl.cm.viridis_r); 
+ax6.pcolormesh(yedges7, xedges7, H7.T, cmap=pl.cm.viridis_r); 
+#ax6.pcolormesh(yedges4, xedges4, H4.T, cmap=pl.cm.viridis_r); 
 ax6.set_xlim((xmin,xmax));ax4.set_ylim((ymin,ymax))
 ax6.contour(U0, U1, np.exp(-I(U)), 5, alpha=0.4, colors="black")
-ax6.set_title("RWMH")
+ax6.set_title("ALDI-extra")#ax6.set_title("RWMH")
 
 ax5.pcolormesh(yedges5, xedges5, H5.T, cmap=pl.cm.viridis_r);  
 ax5.set_xlim((xmin,xmax));ax5.set_ylim((ymin,ymax))
@@ -576,8 +578,10 @@ plt.hist(samples_ALDI[0,:], bins=binsx, density=True)
 plt.plot(u0s, marg_over_y)
 plt.xlim([xmin,xmax])
 plt.subplot(2,3,6)
-plt.title("RWMH")
-plt.hist(samples_RWMH[0,:], bins=binsx, density=True)
+#plt.title("RWMH")
+plt.title("ALDI-estra")
+#plt.hist(samples_RWMH[0,:], bins=binsx, density=True)
+plt.hist(samples_augALDIone[0,:], bins=binsx, density=True)
 plt.plot(u0s, marg_over_y)
 plt.xlim([xmin,xmax])
 plt.subplot(2,3,5)
