@@ -159,9 +159,9 @@ w_mean[:,N-1]  = weighted_mean(us_list[:, :,N-1], lambda u: -params["alpha"]*Phi
 ani = FuncAnimation(fig, update, frames = range(N), init_func=init, blit=False, interval=2)
 
 
-# f = r"P://Philipp/Erlangen/Forschung/Bayesian_CBO/animation.gif" 
-# writergif = PillowWriter(fps=30) 
-# anim.save(f, writer=writergif)
+f = r"P://Philipp/Erlangen/Forschung/Bayesian_CBO/animation_orthnoise.gif" 
+writergif = PillowWriter(fps=30) 
+ani.save(f, writer=writergif)
 
 
 plt.figure()

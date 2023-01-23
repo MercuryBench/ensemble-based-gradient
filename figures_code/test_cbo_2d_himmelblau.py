@@ -166,7 +166,7 @@ ani = FuncAnimation(fig, update, frames = range(N), init_func=init, blit=False, 
 
 plt.figure()
 plt.subplot(2,1,1)
-plt.title("weighted mean")
+plt.title("$V(m_n^\\alpha)$")
 # it = np.linspace(0.0, T, N)
 
 # ns = np.arange(N)
@@ -181,14 +181,16 @@ plt.semilogy(np.exp(coeff[1] + coeff[0]*np.arange(N)), label=f"$\exp({coeff[1]:.
 plt.legend()
 
 plt.subplot(2,1,2)
+plt.title("$V(x_n^j)$ for $j=1,\\ldots,J$")
 plt.loglog([Phi(w_mean[:,n]) for n in range(N)], label="val of weighted mean")
 plt.plot(np.exp(coeff[1] + coeff[0]*np.arange(N)), label=f"$\exp({coeff[1]:.5f} {coeff[0]:.5f}\cdot n)$")
 plt.legend()
+plt.tight_layout()
 
 
 plt.figure(figsize=(5,4))
 plt.subplot(2,1,1)
-plt.title("weighted mean")
+plt.title("$V(m_n^\\alpha)$")
 # it = np.linspace(0.0, T, N)
 
 
@@ -196,6 +198,7 @@ ns = np.arange(N)
 #ts = np.array([it[n] for n in ns])
 plt.semilogy([Phi(w_mean[:,n]) for n in range(N)], label="val of weighted mean")
 plt.subplot(2,1,2)
+plt.title("$V(x_n^j)$ for $j=1,\\ldots,J$")
 for p in range(J):
     plt.semilogy(Phi(us_list[:,p,:]))
 plt.tight_layout()

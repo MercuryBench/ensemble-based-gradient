@@ -178,4 +178,101 @@ if dim == 1:
             plt.ylim([0,15])
         
         #plt.title(f"H={hessian}, PD={penalizedistance}")
+        
+        
         plt.show()
+    
+    # last example: Extrapolation! first a small, then a large
+    avar = 0
+    ind = 0 # index of extrapolation
+    hessian = True
+    sample = False
+    scaledversion = True
+    ret = inferGradientAndHess(xs, vs, hessian=hessian,ind=0, additionalvariance=avar, scaledversion=scaledversion)
+    grad, H = ret['grad'], ret['H']
+    HS = []
+    
+    X = xs-xs[:,ind].reshape((-1,1))
+    grads = grad + H@X
+    
+    
+    
+    plt.figure()
+    xs_plot = np.linspace(np.min(xs)-0.5, np.max(xs)+0.5,200)
+    plt.plot(xs_plot, usefnc(xs_plot), 'k', alpha=0.5, linewidth=1.0)
+    plt.plot(xs.flatten(), vs, '.')
+    #plt.plot(xs[:,ind], vs[ind], 'rs')
+    
+    for k in range(J):       
+        
+        
+        patch_samples = None
+        patch_mean = None
+        if H is None:
+            quadratic = lambda x: (vs[k] + grads[:,k]*(x-xs[:,k]))[0]
+        else:
+            quadratic = lambda x: (vs[k] + grads[:,k]*(x-xs[:,k]) + 0.5*(x-xs[:,k])@(H@(x-xs[:,k])))[0]
+        quad_vals = np.ma.masked_where(np.abs(xs_plot-xs[:,k]) > 0.5, [quadratic(xs_ploti) for xs_ploti in xs_plot])
+        trueTangent = lambda x: (vs[k] + truegrads[k]*(x-xs[:,k]))[0]
+        
+        trueD_vals = np.ma.masked_where(np.abs(xs_plot-xs[:,k]) > 0.5, [trueTangent(xs_ploti) for xs_ploti in xs_plot])
+        plt.plot(xs_plot, quad_vals, color=color_ls, alpha=0.5)
+        
+        patch_ls = mpatches.Patch(color=color_ls, label='least squares gradient')
+        patch_true = None# mpatches.Patch(color=color_true, label='true gradient')
+        handles=[patch_ls,patch_samples,patch_mean,patch_true]
+        #plt.legend([h for h in handles if h is not None])
+        
+        plt.legend(handles=[h for h in handles if h is not None], loc="upper left")
+        
+        plt.ylim([0,15])
+        
+        
+    avar = 1000
+    ind = 0 # index of extrapolation
+    hessian = True
+    sample = False
+    scaledversion = True
+    ret = inferGradientAndHess(xs, vs, hessian=hessian,ind=0, additionalvariance=avar, scaledversion=scaledversion)
+    grad, H = ret['grad'], ret['H']
+    HS = []
+    
+    X = xs-xs[:,ind].reshape((-1,1))
+    grads = grad + H@X
+    
+    
+    
+    plt.figure()
+    xs_plot = np.linspace(np.min(xs)-0.5, np.max(xs)+0.5,200)
+    plt.plot(xs_plot, usefnc(xs_plot), 'k', alpha=0.5, linewidth=1.0)
+    plt.plot(xs.flatten(), vs, '.')
+    #plt.plot(xs[:,ind], vs[ind], 'rs')
+    
+    for k in range(J):       
+        
+        
+        patch_samples = None
+        patch_mean = None
+        if H is None:
+            quadratic = lambda x: (vs[k] + grads[:,k]*(x-xs[:,k]))[0]
+        else:
+            quadratic = lambda x: (vs[k] + grads[:,k]*(x-xs[:,k]) + 0.5*(x-xs[:,k])@(H@(x-xs[:,k])))[0]
+        quad_vals = np.ma.masked_where(np.abs(xs_plot-xs[:,k]) > 0.5, [quadratic(xs_ploti) for xs_ploti in xs_plot])
+        trueTangent = lambda x: (vs[k] + truegrads[k]*(x-xs[:,k]))[0]
+        
+        trueD_vals = np.ma.masked_where(np.abs(xs_plot-xs[:,k]) > 0.5, [trueTangent(xs_ploti) for xs_ploti in xs_plot])
+        plt.plot(xs_plot, quad_vals, color=color_ls, alpha=0.5)
+        
+        patch_ls = mpatches.Patch(color=color_ls, label='least squares gradient')
+        patch_true = None# mpatches.Patch(color=color_true, label='true gradient')
+        handles=[patch_ls,patch_samples,patch_mean,patch_true]
+        #plt.legend([h for h in handles if h is not None])
+        
+        plt.legend(handles=[h for h in handles if h is not None], loc="upper left")
+        
+        plt.ylim([0,15])
+    
+    #plt.title(f"H={hessian}, PD={penalizedistance}")
+    
+    
+    plt.show()
