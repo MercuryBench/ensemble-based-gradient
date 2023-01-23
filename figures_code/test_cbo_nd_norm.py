@@ -120,6 +120,7 @@ for kap in [0, 4.0]:
         
         
         plt.figure(figsize=(5,3))
+        plt.title("$V(m_n^\\alpha)$")
         #plt.subplot(2,1,1)
         #plt.title("weighted mean")
         # it = np.linspace(0.0, T, N)
@@ -139,6 +140,7 @@ for kap in [0, 4.0]:
         # plt.legend()
         
         plt.figure(figsize=(5,3))
+        plt.title("$V(m_n^\\alpha)$")
         plt.loglog([Phi(w_mean[:,n]) for n in range(N)], label="val of weighted mean")
         #plt.plot(np.exp(coeff[1] + coeff[0]*np.arange(N)), label=f"$\exp({coeff[1]:.5f} {coeff[0]:.5f}\cdot n)$")
         plt.tight_layout()
