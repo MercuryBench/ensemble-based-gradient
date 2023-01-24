@@ -22,7 +22,7 @@ exponential_integrator = False  # toggle whether to use exponential integrators 
                                 # for numerical scheme (otherwise Euler-Maruyama)
 
 # one step of gradient-augmented CBO
-def step_gradCBO(us, fnc, params, tau=0.01, noise="vanilla", maxstep=np.inf, memory=None, allow_vectorized_input=True):
+def step_gradCBO(us, fnc, params, tau=0.01, noise="vanilla", maxstep=np.inf, memory=None, allow_vectorized_input=True, extrapolate_grad=False):
     
     d,J = us.shape
     wmean_grad =  weighted_mean(us, lambda u: -params["alpha_grad"]*fnc(u),allow_vectorized_input=allow_vectorized_input)[:,np.newaxis]
@@ -51,7 +51,10 @@ def step_gradCBO(us, fnc, params, tau=0.01, noise="vanilla", maxstep=np.inf, mem
             else:
                 tau = max(tau, maxstep/(params["kappa"]*np.linalg.norm(vs))) # adapt step such that -tau*kappa*vs is less than maxstep
             #print(tau)
-        vs = vs[:, np.newaxis]
+        if extrapolate_grad == True:
+            vs = vs[:, np.newaxis] + H@(us - wmean)
+        else:
+            vs = vs[:, np.newaxis]
     else: 
         vs = np.zeros(us.shape)
     if noise == "vanilla":
